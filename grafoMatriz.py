@@ -5,10 +5,12 @@ class GrafoMatriz:
     INF = float('inf')  # Valor para representar ausência de conexão em grafos com peso
 
     def __init__(self, n=TAM_MAX_DEFAULT, rotulado=False):
-        self.n = n  #
-        self.m = 0
-        self.rotulado = rotulado
-        self.adj = [[self.INF if rotulado else 0 for _ in range(n)] for _ in range(n)]
+        self.n = n  # Quantidade de vértices
+        self.m = 0  # Quantidade de arestas
+        self.rotulado = rotulado  # Define se o grafo é rotulado
+        self.nomes = {i: f"V{i}" for i in range(n)}  # Nome dos vértices
+        valor_padrao = self.INF if rotulado else 0
+        self.adj = [[valor_padrao for _ in range(n)] for _ in range(n)]  # Matriz de adjacência
 
     def insereA(self, vertice_origem, vertice_alvo, peso=1.0):
         if self.rotulado:
@@ -30,17 +32,34 @@ class GrafoMatriz:
                 self.adj[vertice_origem][vertice_alvo] = 0
                 self.m -= 1
 
+    def removeV(self, vertice):
+        """Remove um vértice do grafo, excluindo sua linha e coluna na matriz de adjacência."""
+        if vertice not in self.nomes:
+            raise ValueError("Vértice inválido")
+
+        # Obtém índice do vértice e remove o nome
+        idx = list(self.nomes.keys()).index(vertice)
+        del self.nomes[vertice]
+
+        # Remove a linha correspondente ao vértice
+        del self.adj[idx]
+
+        # Remove a coluna correspondente ao vértice
+        for i in range(len(self.adj)):
+            del self.adj[i][idx]
+
+        # Atualiza o número de vértices
+        self.n -= 1
+
     def show(self):
-        print(f"\n n: {self.n:2d} ", end="")
-        print(f"m: {self.m:2d}")
-        for i in range(self.n):
-            for w in range(self.n):
-                if self.rotulado:
-                    print(f"{self.adj[i][w]:6.2f} " if self.adj[i][w] != self.INF else " INF  ", end="")
-                else:
-                    print(f" {self.adj[i][w]} ", end="")
-            print("\n")
-        print("\nfim da impressao do grafo.")
+
+        nomes_ordenados = sorted(self.nomes.keys())
+        print("\nMatriz de Adjacência:")
+        print("   " + " ".join(f"{self.nomes[i]:3}" for i in nomes_ordenados))
+        print("   " + "---" * len(nomes_ordenados))
+        for i, vertice in enumerate(nomes_ordenados):
+            linha = " ".join(f"{self.adj[i][j]:3}" for j in range(len(nomes_ordenados)))
+            print(f"{self.nomes[vertice]:2} | {linha}")
 
     def inDegree(self, vertice):
         if vertice < 0 or vertice >= self.n:

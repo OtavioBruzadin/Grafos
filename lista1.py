@@ -1,7 +1,7 @@
 from grafoMatriz import GrafoMatriz
 
 print('Lista 1 Teoria dos Grafos')
-
+# Coluna Recebe e Linha envia Linha -> coluna
 print('\nExercicio 1')
 ex1naoRotulado = GrafoMatriz(5)
 
@@ -49,22 +49,21 @@ ex3naoRotulado.insereA(4, 0)
 
 ex3rotulado.insereA(0, 1, 4.0)
 ex3rotulado.insereA(0, 2, 8.0)
-ex3rotulado.insereA(1, 3, 16.0)
+ex3rotulado.insereA(2, 3, 16.0)
 ex3rotulado.insereA(1, 4, 32.0)
-
-
+ex3rotulado.show()
+ex3rotulado.removeV(1)
+ex3rotulado.show()
 print("Grau do vértice não rotulado 0:", ex3naoRotulado.degree(0))
 print("Grau do vértice não rotulado 1:", ex3naoRotulado.degree(1))
 
 print("Grau do vértice rotulado 0:", ex3rotulado.degree(0))
 print("Grau do vértice rotulado 1:", ex3rotulado.degree(1))
 
-
 print('\nExercicio 4')
 
 ex4naoRotulado = GrafoMatriz(5)
 ex4rotulado = GrafoMatriz(5, True)
-
 
 ex4naoRotulado.insereA(0, 1)
 ex4naoRotulado.insereA(0, 2)
@@ -105,4 +104,4 @@ print("Vértice não rotulado 0 é Sorvedouro?:", ex5naoRotulado.isSorvedouro(0)
 print("Vértice não rotulado 1 é Sorvedouro?:", ex5naoRotulado.isSorvedouro(1))
 
 print("Vértice rotulado 0 é Sorvedouro?:", ex5rotulado.isSorvedouro(0))
-print("Vértice rotulado 1 é Sorvedouro?:", ex5rotulado.isSorvedouro(1))
+print("Vértice rotulado 3 é Sorvedouro?:", ex5rotulado.isSorvedouro(3))
