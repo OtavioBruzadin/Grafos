@@ -146,11 +146,9 @@ ex12_rotulado.insereA("Vinicius", "Marcos", 3.0)
 ex12_rotulado.insereA("Marcos", "Paulo", 4.0)
 ex12_rotulado.insereA("Lucas", "Joao", 5.0)
 
-
 ex12.show()
 ex12.removerVertice("Vinicius")
 ex12.show()
-
 
 ex12_rotulado.show()
 ex12_rotulado.removerVertice("Vinicius")

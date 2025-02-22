@@ -22,8 +22,6 @@ class GrafoMatriz:
             linha.append(self.INF if self.rotulado else 0)
         self.adj.append([self.INF if self.rotulado else 0] * self.qtd_vertices)
 
-
-
     def insereA(self, origem, destino, peso=1.0):
         if origem not in self.indices or destino not in self.indices:
             raise ValueError("Vértice não encontrado.")
@@ -54,6 +52,7 @@ class GrafoMatriz:
             del linha[index]
 
         self.qtd_vertices -= 1
+
     def removeA(self, origem, destino):
         if origem not in self.indices or destino not in self.indices:
             raise ValueError("Vértice não encontrado.")
