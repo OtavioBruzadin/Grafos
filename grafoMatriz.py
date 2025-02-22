@@ -1,75 +1,86 @@
-# -*- coding: utf-8 -*-
-
 class GrafoMatriz:
-    TAM_MAX_DEFAULT = 100  # qtde de vértices máxima default
-    INF = float('inf')  # Valor para representar ausência de conexão em grafos com peso
+    TAM_MAX_DEFAULT = 100
+    INF = float('inf')
 
-    def __init__(self, n=TAM_MAX_DEFAULT, rotulado=False):
-        self.n = n  # Quantidade de vértices
-        self.m = 0  # Quantidade de arestas
-        self.rotulado = rotulado  # Define se o grafo é rotulado
-        self.nomes = {i: f"V{i}" for i in range(n)}  # Nome dos vértices
-        valor_padrao = self.INF if rotulado else 0
-        self.adj = [[valor_padrao for _ in range(n)] for _ in range(n)]  # Matriz de adjacência
+    def __init__(self, rotulado=False):
+        self.qtd_vertices = 0
+        self.qtd_arestas = 0
+        self.rotulado = rotulado
+        self.nomes = {}
+        self.indices = {}
+        self.adj = []
 
-    def insereA(self, vertice_origem, vertice_alvo, peso=1.0):
+    def adicionarVertice(self, nome):
+        if nome in self.indices:
+            raise ValueError("Vértice já existe.")
+
+        self.nomes[self.qtd_vertices] = nome
+        self.indices[nome] = self.qtd_vertices
+        self.qtd_vertices += 1
+
+        for linha in self.adj:
+            linha.append(self.INF if self.rotulado else 0)
+        self.adj.append([self.INF if self.rotulado else 0] * self.qtd_vertices)
+
+
+
+    def insereA(self, origem, destino, peso=1.0):
+        if origem not in self.indices or destino not in self.indices:
+            raise ValueError("Vértice não encontrado.")
+
+        index_origem = self.indices[origem]
+        index_destino = self.indices[destino]
+
         if self.rotulado:
-            if self.adj[vertice_origem][vertice_alvo] == self.INF:
-                self.adj[vertice_origem][vertice_alvo] = peso
-                self.m += 1
+            if self.adj[index_origem][index_destino] == self.INF:
+                self.adj[index_origem][index_destino] = peso
+                self.qtd_arestas += 1
         else:
-            if self.adj[vertice_origem][vertice_alvo] == 0:
-                self.adj[vertice_origem][vertice_alvo] = 1
-                self.m += 1
+            if self.adj[index_origem][index_destino] == 0:
+                self.adj[index_origem][index_destino] = 1
+                self.qtd_arestas += 1
 
-    def removeA(self, vertice_origem, vertice_alvo):
+    def removerVertice(self, vertice):
+        if vertice not in self.indices:
+            raise ValueError("Vértice não encontrado.")
+
+        index = self.indices[vertice]
+        del self.nomes[index]
+        del self.indices[vertice]
+
+        del self.adj[index]
+
+        for linha in self.adj:
+            del linha[index]
+
+        self.qtd_vertices -= 1
+    def removeA(self, origem, destino):
+        if origem not in self.indices or destino not in self.indices:
+            raise ValueError("Vértice não encontrado.")
+
+        index_origem = self.indices[origem]
+        index_destino = self.indices[destino]
+
         if self.rotulado:
-            if self.adj[vertice_origem][vertice_alvo] != self.INF:
-                self.adj[vertice_origem][vertice_alvo] = self.INF
-                self.m -= 1
+            if self.adj[index_origem][index_destino] != self.INF:
+                self.adj[index_origem][index_destino] = self.INF
+                self.qtd_arestas -= 1
         else:
-            if self.adj[vertice_origem][vertice_alvo] == 1:
-                self.adj[vertice_origem][vertice_alvo] = 0
-                self.m -= 1
-
-    def removeV(self, vertice):
-        """Remove um vértice do grafo, excluindo sua linha e coluna na matriz de adjacência."""
-        if vertice not in self.nomes:
-            raise ValueError("Vértice inválido")
-
-        # Obtém índice do vértice e remove o nome
-        idx = list(self.nomes.keys()).index(vertice)
-        del self.nomes[vertice]
-
-        # Remove a linha correspondente ao vértice
-        del self.adj[idx]
-
-        # Remove a coluna correspondente ao vértice
-        for i in range(len(self.adj)):
-            del self.adj[i][idx]
-
-        # Atualiza o número de vértices
-        self.n -= 1
-
-    def show(self):
-
-        nomes_ordenados = sorted(self.nomes.keys())
-        print("\nMatriz de Adjacência:")
-        print("   " + " ".join(f"{self.nomes[i]:3}" for i in nomes_ordenados))
-        print("   " + "---" * len(nomes_ordenados))
-        for i, vertice in enumerate(nomes_ordenados):
-            linha = " ".join(f"{self.adj[i][j]:3}" for j in range(len(nomes_ordenados)))
-            print(f"{self.nomes[vertice]:2} | {linha}")
+            if self.adj[index_origem][index_destino] == 1:
+                self.adj[index_origem][index_destino] = 0
+                self.qtd_arestas -= 1
 
     def inDegree(self, vertice):
-        if vertice < 0 or vertice >= self.n:
-            raise ValueError("Vértice fora do intervalo válido.")
-        return sum(1 for i in range(self.n) if self.adj[i][vertice] != (self.INF if self.rotulado else 0))
+        if vertice not in self.indices:
+            raise ValueError("Vértice não encontrado.")
+        index = self.indices[vertice]
+        return sum(1 for i in range(self.qtd_vertices) if self.adj[i][index] != (self.INF if self.rotulado else 0))
 
     def outDegree(self, vertice):
-        if vertice < 0 or vertice >= self.n:
-            raise ValueError("Vértice fora do intervalo válido.")
-        return sum(1 for i in range(self.n) if self.adj[vertice][i] != (self.INF if self.rotulado else 0))
+        if vertice not in self.indices:
+            raise ValueError("Vértice não encontrado.")
+        index = self.indices[vertice]
+        return sum(1 for i in range(self.qtd_vertices) if self.adj[index][i] != (self.INF if self.rotulado else 0))
 
     def degree(self, vertice):
         return self.inDegree(vertice) + self.outDegree(vertice)
@@ -92,3 +103,11 @@ class GrafoMatriz:
         else:
             return 0
 
+    def show(self):
+        print("\nMatriz de Adjacência:")
+        nomes_ordenados = list(self.nomes.values())
+        print("   " + " ".join(f"{nome:3}" for nome in nomes_ordenados))
+        print("   " + "---" * self.qtd_vertices)
+        for i, nome in enumerate(nomes_ordenados):
+            linha = " ".join(f"{self.adj[i][j]:3}" for j in range(self.qtd_vertices))
+            print(f"{nome:2} | {linha}")
