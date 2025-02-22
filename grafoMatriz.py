@@ -33,46 +33,50 @@ class GrafoMatriz:
                 self.m -= 1
 
     def removeV(self, vertice):
-        """Remove um vértice do grafo, excluindo sua linha e coluna na matriz de adjacência."""
-        if vertice not in self.nomes:
-            raise ValueError("Vértice inválido")
+        if isinstance(vertice, int):
+            if vertice not in self.nomes or self.nomes[vertice] is None:
+                raise ValueError("Vértice não existe.")
+        else:
+            if vertice not in self.nomes.values():
+                raise ValueError("Vértice não existe.")
+            vertice = list(self.nomes.keys())[list(self.nomes.values()).index(vertice)]
 
-        # Obtém índice do vértice e remove o nome
-        idx = list(self.nomes.keys()).index(vertice)
-        del self.nomes[vertice]
-
-        # Remove a linha correspondente ao vértice
-        del self.adj[idx]
-
-        # Remove a coluna correspondente ao vértice
-        for i in range(len(self.adj)):
-            del self.adj[i][idx]
-
-        # Atualiza o número de vértices
-        self.n -= 1
-
-    def show(self):
-
-        nomes_ordenados = sorted(self.nomes.keys())
-        print("\nMatriz de Adjacência:")
-        print("   " + " ".join(f"{self.nomes[i]:3}" for i in nomes_ordenados))
-        print("   " + "---" * len(nomes_ordenados))
-        for i, vertice in enumerate(nomes_ordenados):
-            linha = " ".join(f"{self.adj[i][j]:3}" for j in range(len(nomes_ordenados)))
-            print(f"{self.nomes[vertice]:2} | {linha}")
+        self.nomes[vertice] = None
+        for i in range(self.n):
+            self.adj[vertice][i] = 0
+            self.adj[i][vertice] = 0
 
     def inDegree(self, vertice):
-        if vertice < 0 or vertice >= self.n:
-            raise ValueError("Vértice fora do intervalo válido.")
-        return sum(1 for i in range(self.n) if self.adj[i][vertice] != (self.INF if self.rotulado else 0))
+        if isinstance(vertice, int):
+            if vertice not in self.nomes or self.nomes[vertice] is None:
+                raise ValueError("Vértice não existe.")
+        else:
+            if vertice not in self.nomes.values():
+                raise ValueError("Vértice não existe.")
+            vertice = list(self.nomes.keys())[list(self.nomes.values()).index(vertice)]
+
+        return sum(1 for i in range(self.n) if self.adj[i][vertice] != self.INF and self.adj[i][vertice] != 0)
 
     def outDegree(self, vertice):
-        if vertice < 0 or vertice >= self.n:
-            raise ValueError("Vértice fora do intervalo válido.")
-        return sum(1 for i in range(self.n) if self.adj[vertice][i] != (self.INF if self.rotulado else 0))
+        if isinstance(vertice, int):
+            if vertice not in self.nomes or self.nomes[vertice] is None:
+                raise ValueError("Vértice não existe.")
+        else:
+            if vertice not in self.nomes.values():
+                raise ValueError("Vértice não existe.")
+            vertice = list(self.nomes.keys())[list(self.nomes.values()).index(vertice)]
+
+        return sum(1 for j in range(self.n) if self.adj[vertice][j] != self.INF and self.adj[vertice][j] != 0)
 
     def degree(self, vertice):
         return self.inDegree(vertice) + self.outDegree(vertice)
+
+    def show(self):
+        nomes_ordenados = [i for i in sorted(self.nomes.keys()) if self.nomes[i] is not None]
+        print("   " + " ".join(f"{self.nomes[i]:3}" for i in nomes_ordenados))
+        for vertice in nomes_ordenados:
+            linha = " ".join(f"{self.adj[vertice][j]:3}" for j in nomes_ordenados)
+            print(f"{self.nomes[vertice]:2} | {linha}")
 
     def isSource(self, vertice):
         saida = self.outDegree(vertice)
