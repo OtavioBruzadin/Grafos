@@ -96,3 +96,13 @@ class GrafoMatriz:
         else:
             return 0
 
+    def isComplete(self):
+        n = len(self.adj)
+        for i in range(n):
+            for j in range(n):
+                if i != j and (self.adj[i][j] == 0 or self.adj[i][j] == self.INF):
+                    return False
+        return True
+
+
+

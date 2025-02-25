@@ -135,3 +135,26 @@ ex12rotulado.removeV(1)
 print('\nDEPOIS')
 
 ex12rotulado.show()
+
+
+print('\nExercicio 14')
+
+ex14 = GrafoMatriz(3)
+ex14rotulado = GrafoMatriz(3, True)
+
+ex14.insereA(0, 1)
+ex14.insereA(0, 2)
+ex14.insereA(1, 0)
+ex14.insereA(1, 2)
+ex14.insereA(2, 0)
+ex14.show()
+print('\nO grafo não rotulado é completo? : ', ex14.isComplete()) #expected False
+
+ex14rotulado.insereA(0, 1, 4.0)
+ex14rotulado.insereA(0, 2, 8.0)
+ex14rotulado.insereA(1, 0, 16.0)
+ex14rotulado.insereA(1, 2, 32.0)
+ex14rotulado.insereA(2, 0, 64.0)
+ex14rotulado.insereA(2, 1, 128.0)
+ex14rotulado.show()
+print('\nO grafo rotulado é completo? : ',ex14rotulado.isComplete()) #expected True
