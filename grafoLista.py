@@ -24,7 +24,46 @@ class GrafoLista:
     def removeA(self, v, w):
         self.listaAdj[v].remove(w)
         self.m-=1
+
+    #Calcula e retorna o grau de entrada de um vértice v 
+    def inDegree(self,v):
+        grauVertice = 0
+        for i in range(self.n):
+            if v in self.listaAdj[i]:
+                grauVertice += 1
+        return grauVertice
+    
+    #Calcula e retorna o grau de saida de um vértice v
+    def outDegree(self,v):
+        return len(self.listaAdj[v])
+
+    #Calcula o grau do vértice
+    def degree(self, v):
+        grauVerticeIn = self.inDegree(v)
+        grauVerticeOut = self.outDegree(v)
+        totalGrau = grauVerticeIn + grauVerticeOut
+        print(f"Grau de entrada: {grauVerticeIn}")
+        print(f"Grau de saída: {grauVerticeOut}")
+        print(f"Grau total: {totalGrau}")
+        return totalGrau
+    
+    # Verifica se 
+    def isEqual(grafoA,grafoB):
+        if grafoA.listaAdj == grafoB.listaAdj:
+            return True
+        else:
+            return False
         
+    # Transforma lista de adjacencia em matriz
+    def listToMatrix(self,v):
+
+        return
+    
+    # Transforma matrix em lista de adjacencia
+    def matrixToList():
+
+        return
+
 	# Apresenta o Grafo contendo
 	# número de vértices, arestas
 	# e a LISTA de adjacência obtida	
@@ -38,5 +77,9 @@ class GrafoLista:
                 print(f"{val:2d}", end="") 
 
         print("\n\nfim da impressao do grafo." )
+
+
+
+
         
         
