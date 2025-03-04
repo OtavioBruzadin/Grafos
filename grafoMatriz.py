@@ -104,5 +104,18 @@ class GrafoMatriz:
                     return False
         return True
 
+    def grafo_complementar(self):
+        grafo_comp = GrafoMatriz(self.n, self.rotulado)
+        for i in range(self.n):
+            for j in range(self.n):
+                if i != j:
+                    if not self.rotulado:
+                        grafo_comp.adj[i][j] = 1 if self.adj[i][j] == 0 else 0
+                    else:
+                        if self.adj[i][j] == self.INF:
+                            grafo_comp.adj[i][j] = 1
+                        else:
+                            grafo_comp.adj[i][j] = self.INF
 
+        return grafo_comp
 

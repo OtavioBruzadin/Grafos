@@ -106,38 +106,60 @@ print("Vértice 1 é Sorvedouro?:", ex5.isSorvedouro(1)) #expected 1
 print("Vértice rotulado 0 é Sorvedouro?:", ex5rotulado.isSorvedouro(0)) #expected 0
 print("Vértice rotulado 3 é Sorvedouro?:", ex5rotulado.isSorvedouro(3)) #expected 1
 
-print('\nExercicio 12')
+print('\nExercicio 30')
 
 
-ex12 = GrafoMatriz(5)
-ex12rotulado = GrafoMatriz(5, True)
+ex30 = GrafoMatriz(5)
+ex30rotulado = GrafoMatriz(5, True)
 
-ex12.insereA(0, 1)
-ex12.insereA(0, 2)
-ex12.insereA(1, 3)
-ex12.insereA(2, 4)
-
-print('\nANTES')
-ex12.show()
-ex12.removeV(2)
-print('\nDEPOIS')
-
-ex12.show()
-
-ex12rotulado.insereA(0, 1, 4.0)
-ex12rotulado.insereA(0, 2, 8.0)
-ex12rotulado.insereA(2, 3, 16.0)
-ex12rotulado.insereA(1, 4, 32.0)
+ex30.insereA(0, 1)
+ex30.insereA(0, 2)
+ex30.insereA(1, 3)
+ex30.insereA(2, 4)
 
 print('\nANTES')
-ex12rotulado.show()
-ex12rotulado.removeV(1)
+ex30.show()
+ex30.removeV(2)
 print('\nDEPOIS')
 
-ex12rotulado.show()
+ex30.show()
+
+ex30rotulado.insereA(0, 1, 4.0)
+ex30rotulado.insereA(0, 2, 8.0)
+ex30rotulado.insereA(2, 3, 16.0)
+ex30rotulado.insereA(1, 4, 32.0)
+
+print('\nANTES')
+ex30rotulado.show()
+ex30rotulado.removeV(1)
+print('\nDEPOIS')
+
+ex30rotulado.show()
 
 
-print('\nExercicio 14')
+print('\nExercicio 13')
+
+ex13 = GrafoMatriz(3)
+ex13rotulado = GrafoMatriz(3, True)
+
+ex13.insereA(0, 1)
+ex13.insereA(0, 2)
+ex13.insereA(1, 0)
+ex13.insereA(1, 2)
+ex13.insereA(2, 0)
+ex13.show()
+print('\nO grafo não rotulado é completo? : ', ex13.isComplete()) #expected False
+
+ex13rotulado.insereA(0, 1, 4.0)
+ex13rotulado.insereA(0, 2, 8.0)
+ex13rotulado.insereA(1, 0, 16.0)
+ex13rotulado.insereA(1, 2, 32.0)
+ex13rotulado.insereA(2, 0, 64.0)
+ex13rotulado.insereA(2, 1, 128.0)
+ex13rotulado.show()
+print('\nO grafo rotulado é completo? : ', ex13rotulado.isComplete()) #expected True
+
+print('\nExercicio 13')
 
 ex14 = GrafoMatriz(3)
 ex14rotulado = GrafoMatriz(3, True)
@@ -145,16 +167,19 @@ ex14rotulado = GrafoMatriz(3, True)
 ex14.insereA(0, 1)
 ex14.insereA(0, 2)
 ex14.insereA(1, 0)
-ex14.insereA(1, 2)
 ex14.insereA(2, 0)
+
+print('\nGrafo original: ')
 ex14.show()
-print('\nO grafo não rotulado é completo? : ', ex14.isComplete()) #expected False
+print('\nGrafo complementar: ')
+
+ex14.grafo_complementar().show()
 
 ex14rotulado.insereA(0, 1, 4.0)
 ex14rotulado.insereA(0, 2, 8.0)
-ex14rotulado.insereA(1, 0, 16.0)
 ex14rotulado.insereA(1, 2, 32.0)
-ex14rotulado.insereA(2, 0, 64.0)
 ex14rotulado.insereA(2, 1, 128.0)
+print('\nGrafo rotulado original: ')
 ex14rotulado.show()
-print('\nO grafo rotulado é completo? : ',ex14rotulado.isComplete()) #expected True
+print('\nGrafo rotualdo complementar: ')
+ex14rotulado.grafo_complementar().show()
