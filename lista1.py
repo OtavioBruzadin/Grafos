@@ -1,4 +1,5 @@
 from grafoMatriz import GrafoMatriz
+from grafoMatriz import GrafoMatrizND 
 
 print('Lista 1 Teoria dos Grafos')
 # Coluna Recebe e Linha envia Linha -> coluna
@@ -105,6 +106,85 @@ print("Vértice 1 é Sorvedouro?:", ex5.isSorvedouro(1)) #expected 1
 
 print("Vértice rotulado 0 é Sorvedouro?:", ex5rotulado.isSorvedouro(0)) #expected 0
 print("Vértice rotulado 3 é Sorvedouro?:", ex5rotulado.isSorvedouro(3)) #expected 1
+
+print('\nExercicio 6')
+
+ex6 = GrafoMatriz(n=4)
+ex6rotulado = GrafoMatriz(n=4, rotulado=True)
+
+ex6.insereA(0, 1, 1)
+ex6.insereA(1, 0, 1)
+ex6.insereA(2, 3, 2)
+ex6.insereA(3, 2, 2)
+ex6.show()
+print('\nO grafo é simetrico?' ex6.simetrico()) #expected True
+
+ex6.insereA(1, 2, 4)
+ex6.show()
+print('\nO grafo é simetrico?' ex6.simetrico()) #expected False 
+
+ex6rotulado.insereA(0, 1, 1)
+ex6rotulado.insereA(1, 0, 1)
+ex6rotulado.insereA(2, 3, 2)
+ex6rotulado.insereA(3, 2, 2)
+ex6rotulado.show()
+print('\nO grafo rotulado é simetrico?' ex6rotulado.simetrico()) #expected True
+
+ex6rotulado.insereA(1, 2, 4)
+ex6rotulado.show()
+print('\nO grafo rotulado é simetrico?' ex6rotulado.simetrico()) #expected False 
+
+print('\nExercicio 7')
+
+ex7 = GrafoMatriz()
+
+ex7.arquivo('grafo.txt')  
+ex7.show()
+
+print('\nExercicio 8')
+
+ex8 = GrafoMatrizND(n=4)
+ex8rotulado = GrafoMatrizND(n=4, rotulado=True)
+
+ex8.show()
+print('\nInserindo arestas no grafo')
+ex8.insereA(0,1)
+ex8.insereA(2,1)
+ex8.insereA(3,2)
+ex8.show()
+
+print('\nRemovendo aresta no grafo')
+ex8.removeA(1,2)
+ex8.show()
+
+
+ex8rotulado.show()
+print('\nInserindo arestas no grafo')
+ex8rotulado.insereA(0,1)
+ex8rotulado.insereA(2,1)
+ex8rotulado.insereA(3,2)
+ex8rotulado.show()
+
+print('\nRemovendo aresta no grafo')
+ex8rotulado.removeA(1,2)
+ex8rotulado.show()
+
+Exercico 9
+
+ex9 = GrafoMatrizND(n=5)
+
+ex9.insereA(0,1)
+ex9.insereA(0,4)
+ex9.insereA(1,2)
+ex9.insereA(3,1)
+ex9.insereA(4,1)
+ex9.insereA(4,3)
+ex9.show
+print('\nGrau do vertice 0 é:', ex9.grau(0)) #expected 2
+print('\nGrau do vertice 1 é:', ex9.grau(1)) #expected 4
+print('\nGrau do vertice 2 é:', ex9.grau(2)) #expected 2
+print('\nGrau do vertice 3 é:', ex9.grau(3)) #expected 2
+print('\nGrau do vertice 4 é:', ex9.grau(4)) #expected 3
 
 print('\nExercicio 13')
 
