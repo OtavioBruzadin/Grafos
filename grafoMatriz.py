@@ -197,7 +197,7 @@ class GrafoMatrizND:
                 self.m -= 1
 
     def grau(self, vertice):
-        if tipoRot(vertice, int):
+        if isinstance(vertice, int):
             if vertice not in self.nomes or self.nomes[vertice] is None:
                 raise ValueError("Vértice não existe.")
         else:
@@ -209,7 +209,7 @@ class GrafoMatrizND:
 
 
     def removeV(self, vertice):
-        if tipoRot(vertice, int):
+        if isinstance(vertice, int):
             if vertice not in self.nomes or self.nomes[vertice] is None:
                 raise ValueError("Vértice não existe.")
         else:
