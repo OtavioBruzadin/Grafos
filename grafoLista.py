@@ -1,31 +1,18 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Feb 14 16:01:03 2023
-
-@author: icalc
-"""
-# Grafo como uma lista de adjacência
 class GrafoLista:
-    TAM_MAX_DEFAULT = 100 # qtde de vértices máxima default
-    # construtor da classe grafo
+    TAM_MAX_DEFAULT = 100 
     def __init__(self, n=TAM_MAX_DEFAULT):
-        self.n = n # número de vértices
-        self.m = 0 # número de arestas
-        # lista de adjacência
+        self.n = n 
+        self.m = 0 
         self.listaAdj = [[] for i in range(self.n)]
         
-	# Insere uma aresta no Grafo tal que
-	# v é adjacente a w
     def insereA(self, v, w):
         self.listaAdj[v].append(w)
         self.m+=1
      
-    # remove uma aresta v->w do Grafo	
     def removeA(self, v, w):
         self.listaAdj[v].remove(w)
         self.m-=1
 
-    #Calcula e retorna o grau de entrada de um vértice v 
     def inDegree(self,v):
         grauVertice = 0
         for i in range(self.n):
@@ -33,40 +20,40 @@ class GrafoLista:
                 grauVertice += 1
         return grauVertice
     
-    #Calcula e retorna o grau de saida de um vértice v
     def outDegree(self,v):
         return len(self.listaAdj[v])
 
-    #Calcula o grau do vértice
     def degree(self, v):
         grauVerticeIn = self.inDegree(v)
         grauVerticeOut = self.outDegree(v)
         totalGrau = grauVerticeIn + grauVerticeOut
-        print(f"Grau de entrada: {grauVerticeIn}")
-        print(f"Grau de saída: {grauVerticeOut}")
-        print(f"Grau total: {totalGrau}")
         return totalGrau
     
-    # Verifica se 
     def isEqual(grafoA,grafoB):
         if grafoA.listaAdj == grafoB.listaAdj:
             return True
         else:
             return False
         
-    # Transforma lista de adjacencia em matriz
-    def listToMatrix(self,v):
-
-        return
+    def listToMatrix(self):
+        matrix = [[0 for _ in range(self.n)] for _ in range(self.n)]
+        for v in range(self.n):
+            for w in self.listaAdj[v]:
+                matrix[v][w] = 1
+        return matrix
     
-    # Transforma matrix em lista de adjacencia
-    def matrixToList():
+    def matrixToList(self, matrix):
+        self.n = len(matrix)
+        self.listaAdj = [[] for _ in range(self.n)]
+        for v in range(self.n):
+            for w in range(self.n):
+                if matrix[v][w] != 0:
+                    self.insereA(v, w)
+        print("\nLista de adjacência:")
+        for v in range(self.n):
+            print(f"{v}: {' '.join(map(str, self.listaAdj[v]))}")
+        return self.listaAdj
 
-        return
-
-	# Apresenta o Grafo contendo
-	# número de vértices, arestas
-	# e a LISTA de adjacência obtida	
     def show(self):
         print(f"\n n: {self.n:2d} ", end="")
         print(f"m: {self.m:2d}")
@@ -75,11 +62,4 @@ class GrafoLista:
             for w in range(len(self.listaAdj[i])):
                 val = self.listaAdj[i][w]
                 print(f"{val:2d}", end="") 
-
         print("\n\nfim da impressao do grafo." )
-
-
-
-
-        
-        
