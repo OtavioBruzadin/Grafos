@@ -182,7 +182,7 @@ ex9.insereA(4,3)
 ex9.show()
 print('\nGrau do vertice 0 é:', ex9.grau(0)) #expected 2
 print('\nGrau do vertice 1 é:', ex9.grau(1)) #expected 4
-print('\nGrau do vertice 2 é:', ex9.grau(2)) #expected 2
+print('\nGrau do vertice 2 é:', ex9.grau(2)) #expected 1
 print('\nGrau do vertice 3 é:', ex9.grau(3)) #expected 2
 print('\nGrau do vertice 4 é:', ex9.grau(4)) #expected 3
 
@@ -419,6 +419,12 @@ print("Lista de adjacência:")
 ex27.show()
 
 print("O grafo é simétrico?", ex27.isSimetric())
+
+print('\nExercicio 28')
+
+
+ex28 = TGrafo.lerArquivo('grafo.txt')
+ex28.show()
 
 print('\nExercicio 29')
 

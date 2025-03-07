@@ -4,21 +4,26 @@ class GrafoLista:
         self.n = n 
         self.m = 0 
         self.listaAdj = [[] for i in range(self.n)]
-        
+
     def insereA(self, v, w):
         self.listaAdj[v].append(w)
         self.m+=1
-     
+
     def removeA(self, v, w):
         self.listaAdj[v].remove(w)
         self.m-=1
 
     def remover_vertice(self, v):
-        if v in self.listaAdj:
-            del self.listaAdj[v]
-            for v in self.listaAdj:
-                if v in self.listaAdj[v]:
-                    self.listaAdj[v].remove(v)
+        if v >= len(self.listaAdj):
+            raise ValueError('Vértice não existe.')
+
+        # Remove todas as referências ao vértice
+        for lista in self.listaAdj:
+            if v in lista:
+                lista.remove(v)
+
+        # Marca o vértice como removido
+        self.listaAdj[v] = None
 
     def inDegree(self,v):
         grauVertice = 0
@@ -26,7 +31,7 @@ class GrafoLista:
             if v in self.listaAdj[i]:
                 grauVertice += 1
         return grauVertice
-    
+
     def outDegree(self,v):
         return len(self.listaAdj[v])
 
@@ -35,20 +40,20 @@ class GrafoLista:
         grauVerticeOut = self.outDegree(v)
         totalGrau = grauVerticeIn + grauVerticeOut
         return totalGrau
-    
+
     def isEqual(grafoA,grafoB):
         if grafoA.listaAdj == grafoB.listaAdj:
             return True
         else:
             return False
-        
+
     def listToMatrix(self):
         matrix = [[0 for _ in range(self.n)] for _ in range(self.n)]
         for v in range(self.n):
             for w in self.listaAdj[v]:
                 matrix[v][w] = 1
         return matrix
-    
+
     def matrixToList(self, matrix):
         self.n = len(matrix)
         self.listaAdj = [[] for _ in range(self.n)]
@@ -62,14 +67,12 @@ class GrafoLista:
         return self.listaAdj
 
     def show(self):
-        print(f"\n n: {self.n:2d} ", end="")
-        print(f"m: {self.m:2d}")
         for i in range(self.n):
-            print(f"\n{i:2d}: ", end="")
-            for w in range(len(self.listaAdj[i])):
-                val = self.listaAdj[i][w]
-                print(f"{val:2d}", end="") 
-        print("\n\nfim da impressao do grafo." )
+            if self.listaAdj[i] is not None:
+                print(f"\n{i:2d}: ", end="")
+                for val in self.listaAdj[i]:
+                    print(f"{val:2d}", end="")
+        print("\n\nfim da impressao do grafo.")
 
 class TGrafo:
     def __init__(self, vertices):
@@ -118,6 +121,21 @@ class TGrafo:
                 if u not in self.lista_adj[v]:
                     return 0
         return 1
+
+    @classmethod
+    def lerArquivo(cls, nome_arquivo):
+        with open(nome_arquivo, 'r') as arquivo:
+            vertices = int(arquivo.readline().strip())
+            arestas = int(arquivo.readline().strip())
+            grafo = cls(vertices)
+            for _ in range(arestas):
+                u, v = map(int, arquivo.readline().strip().split())
+                grafo.insereA(u, v)
+        return grafo
+
+    def exibir_grafo(self):
+        for vertice, vizinhos in self.lista_adj.items():
+            print(f"{vertice}: {vizinhos}")
 
     def isComplete(self):
         total_vertices = len(self.lista_adj)
