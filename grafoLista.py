@@ -13,12 +13,18 @@ class GrafoLista:
         self.listaAdj[v].remove(w)
         self.m-=1
 
-    def remover_vertice(self, v):
-        if v in self.listaAdj:
-            del self.listaAdj[v]
-            for v in self.listaAdj:
-                if v in self.listaAdj[v]:
-                    self.listaAdj[v].remove(v)
+    def removerVertice(self, v):
+            if v >= self.n:
+                print("Vértice inválido")
+                return
+            for i in range(self.n):
+                if v in self.listaAdj[i]:
+                    self.listaAdj[i].remove(v)
+                    self.m -= 1
+            self.listaAdj.pop(v)
+            self.n -= 1
+            for i in range(len(self.listaAdj)):
+                self.listaAdj[i] = [x - 1 if x > v else x for x in self.listaAdj[i]]
 
     def inDegree(self,v):
         grauVertice = 0
