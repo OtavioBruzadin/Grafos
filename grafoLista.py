@@ -13,6 +13,13 @@ class GrafoLista:
         self.listaAdj[v].remove(w)
         self.m-=1
 
+    def remover_vertice(self, v):
+        if v in self.listaAdj:
+            del self.listaAdj[v]
+            for v in self.listaAdj:
+                if v in self.listaAdj[v]:
+                    self.listaAdj[v].remove(v)
+
     def inDegree(self,v):
         grauVertice = 0
         for i in range(self.n):
@@ -63,3 +70,62 @@ class GrafoLista:
                 val = self.listaAdj[i][w]
                 print(f"{val:2d}", end="") 
         print("\n\nfim da impressao do grafo." )
+
+class TGrafo:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.lista_adj = {i: [] for i in range(vertices)}
+
+    def insereA(self, u, v):
+        self.lista_adj[u].append(v)
+
+    def remover_vertice(self, vertice):
+        if vertice in self.lista_adj:
+            del self.lista_adj[vertice]
+            for v in self.lista_adj:
+                if vertice in self.lista_adj[v]:
+                    self.lista_adj[v].remove(vertice)
+
+    def isSource(self, vertice):
+        grau_entrada = {i: 0 for i in range(self.vertices)}
+
+        for v in self.lista_adj:
+            for vizinho in self.lista_adj[v]:
+                grau_entrada[vizinho] += 1
+
+        if grau_entrada[vertice] == 0 and len(self.lista_adj[vertice]) > 0:
+            return 1
+        return 0
+
+    def show(self):
+        for vertice, vizinhos in self.lista_adj.items():
+            print(f"{vertice}: {vizinhos}")
+
+    def isSorvedouro(self, vertice):
+        grau_entrada = {i: 0 for i in range(self.vertices)}
+
+        for v in self.lista_adj:
+            for vizinho in self.lista_adj[v]:
+                grau_entrada[vizinho] += 1
+
+        if grau_entrada[vertice] > 0 and len(self.lista_adj[vertice]) == 0:
+            return 1
+        return 0
+
+    def isSimetric(self):
+        for u in self.lista_adj:
+            for v in self.lista_adj[u]:
+                if u not in self.lista_adj[v]:
+                    return 0
+        return 1
+
+    def isComplete(self):
+        total_vertices = len(self.lista_adj)
+        for v in self.lista_adj:
+            if len(self.lista_adj[v]) != total_vertices - 1:
+                return False
+        return True
+
+    def inverter_adj(self):
+        for v in range(len(self.lista_adj)):
+            self.lista_adj[v].reverse()
