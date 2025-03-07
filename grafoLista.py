@@ -102,10 +102,11 @@ class GrafoLista:
 class TGrafo:
     def __init__(self, vertices):
         self.vertices = vertices
-        self.lista_adj = {i: [] for i in range(vertices)}
+        self.lista_adj = {i: set() for i in range(vertices)}
     
     def insereA(self, u, v):
-        self.lista_adj[u].append(v)
+        self.lista_adj[u].add(v)
+        self.lista_adj[v].add(u)
 
     def remover_vertice(self, vertice):
         if vertice in self.lista_adj:
