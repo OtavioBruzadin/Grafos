@@ -52,13 +52,13 @@ ex3rotulado.insereA(0, 1, 4.0)
 ex3rotulado.insereA(0, 2, 8.0)
 ex3rotulado.insereA(2, 3, 16.0)
 ex3rotulado.insereA(1, 4, 32.0)
-ex3rotulado.show()
-ex3rotulado.removeV(1)
-ex3rotulado.show()
+
+
+
 print("Grau do vértice 0:", ex3.degree(0))   #expected 8
 print("Grau do vértice 1:", ex3.degree(1))   #expected 2
 
-print("Grau do vértice rotulado 0:", ex3rotulado.degree(0))       #expected 1
+print("Grau do vértice rotulado 0:", ex3rotulado.degree(0))       #expected 2
 print("Grau do vértice rotulado 2:", ex3rotulado.degree(2))       #expected 2
 
 print('\nExercicio 4')
@@ -371,9 +371,9 @@ ex25.insereA(1, 4)
 print("Lista de adjacência:")
 ex25.show()
 
-print("Vértice 0 é uma fonte?", ex25.isSource(0))  # expected 1 (é fonte)
-print("Vértice 1 é uma fonte?", ex25.isSource(1))  # expected 0 (não é fonte)
-print("Vértice 3 é uma fonte?", ex25.isSource(3))  # expected 0 (não é fonte)
+print("Vértice 0 é uma fonte?", ex25.isSource(0))
+print("Vértice 1 é uma fonte?", ex25.isSource(1))
+print("Vértice 3 é uma fonte?", ex25.isSource(3))
 
 print('\nExercicio 26')
 
@@ -387,10 +387,10 @@ ex26.insereA(1, 4)
 print("Lista de adjacência:")
 ex26.show()
 
-print("Vértice 0 é um sorvedouro?", ex26.isSorvedouro(0))  # expected 0 (não é sorvedouro)
-print("Vértice 1 é um sorvedouro?", ex26.isSorvedouro(1))  # expected 0 (não é sorvedouro)
-print("Vértice 3 é um sorvedouro?", ex26.isSorvedouro(3))  # expected 1 (é sorvedouro)
-print("Vértice 4 é um sorvedouro?", ex26.isSorvedouro(4))  # expected 1 (é sorvedouro)
+print("Vértice 0 é um sorvedouro?", ex26.isSorvedouro(0))
+print("Vértice 1 é um sorvedouro?", ex26.isSorvedouro(1))
+print("Vértice 3 é um sorvedouro?", ex26.isSorvedouro(3))
+print("Vértice 4 é um sorvedouro?", ex26.isSorvedouro(4))
 
 
 print('\nExercicio 27')
@@ -465,24 +465,52 @@ ex30.show()
 
 print('\nExercicio 31')
 
-ex31 = TGrafo(4)
+ex31d = GrafoLista(5)
+ex31d.insereA(0, 1)
+ex31d.insereA(1, 2)
+ex31d.insereA(2, 3)
+ex31d.show()
 
-ex31.insereA(0, 1)
-ex31.insereA(0, 2)
-ex31.insereA(0, 3)
-ex31.insereA(1, 2)
-ex31.insereA(1, 3)
-ex31.insereA(2, 3)
+print("O grafo é completo?", ex31d.isComplete())
 
-print("Lista de adjacência do grafo completo:")
-ex31.show()
-print("O grafo é completo?", ex31.isComplete())  # expected True
+ex31d.insereA(0, 2)
+ex31d.insereA(0, 3)
+ex31d.insereA(0, 4)
+ex31d.insereA(1, 0)
+ex31d.insereA(1, 3)
+ex31d.insereA(1, 4)
+ex31d.insereA(2, 0)
+ex31d.insereA(2, 1)
+ex31d.insereA(2, 4)
+ex31d.insereA(3, 0)
+ex31d.insereA(3, 1)
+ex31d.insereA(3, 2)
+ex31d.insereA(3, 4)
+ex31d.insereA(4, 0)
+ex31d.insereA(4, 1)
+ex31d.insereA(4, 2)
+ex31d.insereA(4, 3)
+ex31d.show()
 
-ex31_incompleto = TGrafo(4)
+print("O grafo é completo?", ex31d.isComplete())
 
-ex31_incompleto.insereA(0, 1)
-ex31_incompleto.insereA(1, 2)
+print('\nNão Direcionado')
 
-print("\nLista de adjacência do grafo incompleto:")
-ex31_incompleto.show()
-print("O grafo é completo?", ex31_incompleto.isComplete())  # expected False
+ex31nd = TGrafo(5)
+ex31nd.insereA(0, 1)
+ex31nd.insereA(1, 2)
+ex31nd.insereA(2, 3)
+ex31nd.show()
+
+print("O grafo é completo?", ex31nd.isComplete())
+
+ex31nd.insereA(0, 2)
+ex31nd.insereA(0, 3)
+ex31nd.insereA(0, 4)
+ex31nd.insereA(1, 3)
+ex31nd.insereA(1, 4)
+ex31nd.insereA(2, 4)
+ex31nd.insereA(3, 4)
+ex31nd.show()
+
+print("O grafo é completo?", ex31nd.isComplete())

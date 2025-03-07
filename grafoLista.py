@@ -55,6 +55,13 @@ class GrafoLista:
                 return False
         return True
 
+    def isComplete(self):
+        total_vertices = len(self.listaAdj)
+        for v in range(len(self.listaAdj)):
+            if len(self.listaAdj[v]) != total_vertices - 1:
+                return False
+        return True
+
     def listToMatrix(self):
         matrix = [[0 for _ in range(len(self.listaAdj))] for _ in range(len(self.listaAdj))]
         for v in range(len(self.listaAdj)):
@@ -92,6 +99,7 @@ class TGrafo:
 
     def insereA(self, u, v):
         self.lista_adj[u].append(v)
+        self.lista_adj[v].append(u)
 
     def remover_vertice(self, vertice):
         if vertice in self.lista_adj:
@@ -153,6 +161,9 @@ class TGrafo:
         for v in self.lista_adj:
             if len(self.lista_adj[v]) != total_vertices - 1:
                 return False
+            for w in self.lista_adj[v]:
+                if v not in self.lista_adj[w]:
+                    return False
         return True
 
     def inverter_adj(self):
