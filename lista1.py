@@ -282,6 +282,22 @@ print('\nO grafo está conectado?', ex15.conectado())
 
 print('\nExercico 17')
 
+ex17 = GrafoMatriz(5)
+
+ex17.insereA(0, 1)
+ex17.insereA(1, 2)
+ex17.insereA(3, 4)
+ex17.insereA(1, 4)
+ex17.insereA(2, 4)
+
+print("Matriz não reduzida")
+ex17.show()
+
+print("\nMatriz reduzida")
+matriz_reduzida = ex17.grafoReduzido()
+for linha in matriz_reduzida:
+    print(linha)
+
 print('\nExercicio 30')
 
 
