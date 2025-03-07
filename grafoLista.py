@@ -1,57 +1,66 @@
 class GrafoLista:
-    TAM_MAX_DEFAULT = 100 
+    TAM_MAX_DEFAULT = 100
+
     def __init__(self, n=TAM_MAX_DEFAULT):
-        self.n = n 
-        self.m = 0 
-        self.listaAdj = [[] for i in range(self.n)]
+        self.n = n
+        self.m = 0
+        self.listaAdj = [[] for _ in range(self.n)]
 
     def insereA(self, v, w):
+        if self.listaAdj[v] is None or self.listaAdj[w] is None:
+            raise ValueError("Uma das extremidades da aresta foi removida e não pode receber arestas.")
         self.listaAdj[v].append(w)
-        self.m+=1
+        self.m += 1
 
     def removeA(self, v, w):
-        self.listaAdj[v].remove(w)
-        self.m-=1
+        if self.listaAdj[v] is not None and w in self.listaAdj[v]:
+            self.listaAdj[v].remove(w)
+            self.m -= 1
 
     def remover_vertice(self, v):
         if v >= len(self.listaAdj):
             raise ValueError('Vértice não existe.')
 
-        # Remove todas as referências ao vértice
         for lista in self.listaAdj:
-            if v in lista:
+            if lista is not None and v in lista:
                 lista.remove(v)
 
-        # Marca o vértice como removido
         self.listaAdj[v] = None
+        self.n -= 1
 
-    def inDegree(self,v):
+    def inDegree(self, v):
+        if self.listaAdj[v] is None:
+            raise ValueError("Vértice foi removido e não tem grau de entrada.")
         grauVertice = 0
-        for i in range(self.n):
-            if v in self.listaAdj[i]:
+        for i in range(len(self.listaAdj)):
+            if self.listaAdj[i] is not None and v in self.listaAdj[i]:
                 grauVertice += 1
         return grauVertice
 
-    def outDegree(self,v):
+    def outDegree(self, v):
+        if self.listaAdj[v] is None:
+            raise ValueError("Vértice foi removido e não tem grau de saída.")
         return len(self.listaAdj[v])
 
     def degree(self, v):
-        grauVerticeIn = self.inDegree(v)
-        grauVerticeOut = self.outDegree(v)
-        totalGrau = grauVerticeIn + grauVerticeOut
-        return totalGrau
+        return self.inDegree(v) + self.outDegree(v)
 
-    def isEqual(grafoA,grafoB):
-        if grafoA.listaAdj == grafoB.listaAdj:
-            return True
-        else:
+    def isEqual(self, grafoA, grafoB):
+        if len(grafoA.listaAdj) != len(grafoB.listaAdj):
             return False
+        for i in range(len(grafoA.listaAdj)):
+            if grafoA.listaAdj[i] is None or grafoB.listaAdj[i] is None:
+                continue
+            if set(grafoA.listaAdj[i]) != set(grafoB.listaAdj[i]):
+                return False
+        return True
 
     def listToMatrix(self):
-        matrix = [[0 for _ in range(self.n)] for _ in range(self.n)]
-        for v in range(self.n):
-            for w in self.listaAdj[v]:
-                matrix[v][w] = 1
+        matrix = [[0 for _ in range(len(self.listaAdj))] for _ in range(len(self.listaAdj))]
+        for v in range(len(self.listaAdj)):
+            if self.listaAdj[v] is not None:
+                for w in self.listaAdj[v]:
+                    matrix[v][w] = 1
         return matrix
 
     def matrixToList(self, matrix):
@@ -63,16 +72,18 @@ class GrafoLista:
                     self.insereA(v, w)
         print("\nLista de adjacência:")
         for v in range(self.n):
-            print(f"{v}: {' '.join(map(str, self.listaAdj[v]))}")
+            if self.listaAdj[v] is not None:
+                print(f"{v}: {' '.join(map(str, self.listaAdj[v]))}")
         return self.listaAdj
 
     def show(self):
-        for i in range(self.n):
+        for i in range(len(self.listaAdj)):
             if self.listaAdj[i] is not None:
                 print(f"\n{i:2d}: ", end="")
                 for val in self.listaAdj[i]:
                     print(f"{val:2d}", end="")
         print("\n\nfim da impressao do grafo.")
+
 
 class TGrafo:
     def __init__(self, vertices):
