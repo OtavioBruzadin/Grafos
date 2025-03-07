@@ -186,6 +186,33 @@ print('\nGrau do vertice 2 é:', ex9.grau(2)) #expected 2
 print('\nGrau do vertice 3 é:', ex9.grau(3)) #expected 2
 print('\nGrau do vertice 4 é:', ex9.grau(4)) #expected 3
 
+print('\nExercicio 11')
+
+ex11 = GrafoMatrizND (5)
+
+ex11.insereA(0, 1)
+ex11.insereA(0, 2)
+ex11.insereA(1, 2)
+ex11.insereA(2, 3)
+ex11.insereA(3, 4)
+ex11.show()
+
+print('\nExercicio 12')
+
+ex12 = GradoMatrizND (4)
+ex12.insereA(0, 1)
+ex12.insereA(0, 2)
+ex12.insereA(0, 3)
+ex12.insereA(1, 2)
+ex12.insereA(1, 3)
+ex12.insereA(2, 3)
+ex12.show()
+
+
+print('\nRemovendo vertice 2')
+ex11.removeV(2)
+ex11.show()
+
 print('\nExercicio 13')
 
 ex13 = GrafoMatriz(3)
