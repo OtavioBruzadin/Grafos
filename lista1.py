@@ -169,7 +169,7 @@ print('\nRemovendo aresta no grafo')
 ex8rotulado.removeA(1,2)
 ex8rotulado.show()
 
-Exercico 9
+print('\nExercico 9')
 
 ex9 = GrafoMatrizND(n=5)
 
@@ -197,21 +197,25 @@ ex11.insereA(2, 3)
 ex11.insereA(3, 4)
 ex11.show()
 
+print('\nRemovendo vertice 2')
+ex11.removeV(2)
+ex11.show()
+
 print('\nExercicio 12')
 
-ex12 = GradoMatrizND (4)
+ex12 = GrafoMatrizND (4)
 ex12.insereA(0, 1)
 ex12.insereA(0, 2)
 ex12.insereA(0, 3)
 ex12.insereA(1, 2)
 ex12.insereA(1, 3)
+ex12.show()
+print('\nEste grafo está completo?', ex12.completo())
+
+print('\nAdcionando a aresta que falta')
 ex12.insereA(2, 3)
 ex12.show()
-
-
-print('\nRemovendo vertice 2')
-ex11.removeV(2)
-ex11.show()
+print('\nEste grafo está completo?', ex12.completo())
 
 print('\nExercicio 13')
 
@@ -259,6 +263,19 @@ print('\nGrafo rotulado original: ')
 ex14rotulado.show()
 print('\nGrafo rotualdo complementar: ')
 ex14rotulado.grafo_complementar().show()
+
+print('\nExercicio 15')
+
+ex15 = GrafoMatrizND(4)
+
+ex15.insereA(0, 3)
+ex15.insereA(0, 2)
+ex15.insereA(1, 3)
+ex15.insereA(2, 1)
+ex15.show()
+
+print
+
 
 print('\nExercicio 30')
 
