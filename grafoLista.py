@@ -82,6 +82,17 @@ class GrafoLista:
                 return False
         return True
 
+@classmethod
+    def from_arquivo(cls, nome_arquivo):
+        with open(nome_arquivo, 'r') as arquivo:
+            vertices = int(arquivo.readline().strip())
+            arestas = int(arquivo.readline().strip())
+            grafo = cls(vertices)
+            for _ in range(arestas):
+                u, v = map(int, arquivo.readline().strip().split())
+                grafo.add_aresta(u, v)
+        return grafo
+
 class TGrafo:
     def __init__(self, vertices):
         self.vertices = vertices
