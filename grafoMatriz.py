@@ -96,3 +96,86 @@ class GrafoMatriz:
         else:
             return 0
 
+    def isComplete(self):
+        n = len(self.adj)
+        for i in range(n):
+            for j in range(n):
+                if i != j and (self.adj[i][j] == 0 or self.adj[i][j] == self.INF):
+                    return False
+        return True
+
+    def grafo_complementar(self):
+        grafo_comp = GrafoMatriz(self.n, self.rotulado)
+        for i in range(self.n):
+            for j in range(self.n):
+                if i != j:
+                    if not self.rotulado:
+                        grafo_comp.adj[i][j] = 1 if self.adj[i][j] == 0 else 0
+                    else:
+                        if self.adj[i][j] == self.INF:
+                            grafo_comp.adj[i][j] = 1
+                        else:
+                            grafo_comp.adj[i][j] = self.INF
+
+        return grafo_comp
+    
+      
+
+    def dfs(self, vertice, visitados):
+        visitados[vertice] = True  
+        for i in range(self.n):
+            if self.adj[vertice][i] != self.INF and self.adj[vertice][i] != 0 and not visitados[i]:
+                self.dfs(i, visitados)
+
+
+    def categoriaConexidade(self):
+        visitados = [False for _ in range(self.n)]
+        self.dfs(0,visitados)
+        for v in visitados:
+            if not v:
+                print("0") 
+                return
+            
+        grafo = self.adj
+        n = self.n
+
+        forteConexo = True
+        for i in range(n):
+            for j in range(n):
+                if grafo[i][j] != grafo[j][i]:
+                    forteConexo = False
+                    break
+            if not forteConexo:
+                break
+
+        if forteConexo:
+            print("3")
+            return
+
+        comparacaoSuperior = True
+        for i in range(n):
+            for j in range(n):
+                if i > j and grafo[i][j] == 0:
+                    comparacaoSuperior = False
+                    break
+            if not comparacaoSuperior:
+                break
+
+        if comparacaoSuperior:
+            print("2")
+            return
+
+        comparacaoInferior = True
+        for i in range(n):
+            for j in range(n):
+                if i < j and grafo[i][j] == 0:
+                    comparacaoInferior = False
+                    break
+            if not comparacaoInferior:
+                break
+
+        if comparacaoInferior:
+            print("2")
+            return
+        
+        print("1")
