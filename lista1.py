@@ -266,16 +266,21 @@ ex14rotulado.grafo_complementar().show()
 
 print('\nExercicio 15')
 
-ex15 = GrafoMatrizND(4)
+ex15 = GrafoMatrizND(5)
 
 ex15.insereA(0, 3)
-ex15.insereA(0, 2)
+ex15.insereA(2, 1)
 ex15.insereA(1, 3)
 ex15.insereA(2, 1)
 ex15.show()
+print('\nO grafo está conectado?', ex15.conectado())
 
-print
+print('\nAdcionando a ultima conexão')
+ex15.insereA(4, 0)
+ex15.show()
+print('\nO grafo está conectado?', ex15.conectado())
 
+print('\nExercico 17')
 
 print('\nExercicio 30')
 
