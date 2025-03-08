@@ -343,6 +343,81 @@ for linha in matriz_reduzida:
     print(linha)
 
 
+print('\nExercicio 19')
+
+ex19 = GrafoLista(4)
+ex19.insereA(0, 1)
+ex19.insereA(0, 2)
+ex19.insereA(2, 1)
+ex19.insereA(2, 3)
+ex19.insereA(1, 3)
+print("O grau de entrada do vertice v é: " , ex19.inDegree(2), "\n")
+
+print('\nExercicio 20')
+
+ex20 = GrafoLista(4)
+ex20.insereA(0, 1)
+ex20.insereA(0, 2)
+ex20.insereA(2, 1)
+ex20.insereA(2, 3)
+ex20.insereA(1, 3)
+print("O grau de saída do vertice v é: " , ex20.outDegree(2), "\n")
+
+print('\nExercicio 21')
+
+ex21 = GrafoLista(4)
+ex21.insereA(0, 1)
+ex21.insereA(0, 2)
+ex21.insereA(2, 1)
+ex21.insereA(2, 3)
+ex21.insereA(1, 3)
+print("O grau do vertice v é: " , ex21.degree(2), "\n")
+
+print('\nExercicio 22')
+
+ex22 = GrafoLista(4)
+ex22.insereA(0, 1)
+ex22.insereA(0, 2)
+ex22.insereA(2, 1)
+ex22.insereA(2, 3)
+ex22.insereA(1, 3)
+
+grafoAux = GrafoLista(4)
+grafoAux.insereA(0, 1)
+grafoAux.insereA(0, 2)
+grafoAux.insereA(2, 1)
+grafoAux.insereA(2, 3)
+grafoAux.insereA(1, 3)
+
+if ex22.isEqual(ex22,grafoAux):
+    print("\n\nOs grafos são iguais.")
+else:
+    print("Os grafos são diferentes.")
+
+ex22.removeA(0,1)
+
+if ex22.isEqual(ex22,grafoAux):
+    print("\n\nOs grafos são iguais.")
+else:
+    print("Os grafos são diferentes.")
+
+
+print('\nExercicio 23')
+
+ex23 = GrafoLista(4)
+ex23.insereA(0, 1)
+ex23.insereA(0, 2)
+ex23.insereA(2, 1)
+ex23.insereA(2, 3)
+ex23.insereA(1, 3)
+
+matriz = ex23.listToMatrix()
+print("\nMatriz de adjacência:")
+for linha in matriz:
+    print(linha)
+
+lista_convertida = ex23.matrixToList(matriz)
+
 print('\nExercicio 24')
 
 ex24 = TGrafo(5)
