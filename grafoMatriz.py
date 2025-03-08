@@ -182,6 +182,46 @@ class GrafoMatriz:
                 return 1
         return 0
 
+    def dfs(self, vertice, visitados):
+        visitados[vertice] = True
+        for i in range(self.n):
+            if self.adj[vertice][i] != self.INF and self.adj[vertice][i] != 0 and not visitados[i]:
+                self.dfs(i, visitados)
+
+    def categoriaConexidade(self):
+        visitados = [False for _ in range(self.n)]
+        self.dfs(0, visitados)
+        for v in visitados:
+            if not v:
+                return 0
+
+        grafo = self.adj
+        n = self.n
+
+        forteConexo = True
+        for i in range(n):
+            for j in range(n):
+                if grafo[i][j] != grafo[j][i]:
+                    forteConexo = False
+                    break
+            if not forteConexo:
+                break
+
+        if forteConexo:
+            return 3
+
+        resultados = []
+
+        for i in range(n):
+            for j in range(n):
+                if (grafo[i][j] == 1) and (grafo[j][i] == 1):
+                    resultados.append(True)
+                else:
+                    resultados.append(False)
+        if any(resultados):
+            return 2
+
+        return 1
 
 class GrafoMatrizND:
     TAM_MAX_DEFAULT = 100

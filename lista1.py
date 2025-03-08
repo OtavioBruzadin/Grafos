@@ -324,6 +324,50 @@ ex15rotulado.insereA(2, 3, 8.0)
 print("Grafo desconectado:", ex15.isConected())  # expected 1 (grafo não conectado)
 print("Grafo desconectado (rotulado):", ex15rotulado.isConected())  # expected 1 (grafo não conectado)
 
+print('\nExercico 16')
+
+ex16 = GrafoMatriz(4)
+ex16.insereA(0, 1)
+ex16.insereA(1, 2)
+ex16.insereA(2, 3)
+ex16.insereA(3, 0)
+ex16.insereA(2, 1)
+ex16.insereA(3, 2)
+ex16.insereA(1, 0)
+ex16.insereA(0, 3)
+
+ex16.show()
+print("")
+print("Categoria de Conexidade: ", ex16.categoriaConexidade(), "\n")
+
+ex16.removeA(3, 2)
+ex16.show()
+print("\nCategoria de Conexidade: ", ex16.categoriaConexidade(), "\n")
+
+ex16.removeA(0, 2)
+ex16.removeA(0, 3)
+ex16.removeA(1, 0)
+ex16.removeA(2, 0)
+ex16.removeA(2, 1)
+ex16.removeA(3, 0)
+ex16.removeA(3, 1)
+ex16.removeA(3, 2)
+
+
+ex16.show()
+print("\nCategoria de Conexidade: ", ex16.categoriaConexidade(), "\n")
+
+ex16.removeA(0, 1)
+ex16.removeA(1, 0)
+ex16.removeA(3, 0)
+ex16.removeA(2, 0)
+ex16.removeA(0, 2)
+ex16.removeA(0, 3)
+
+ex16.show()
+print("")
+print("Categoria de Conexidade: ", ex16.categoriaConexidade(), "\n")
+
 print('\nExercico 17')
 
 ex17 = GrafoMatriz(5)
