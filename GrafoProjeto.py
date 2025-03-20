@@ -6,8 +6,8 @@ class GrafoMatriz:
         self.n = 0
         self.m = 0
         self.rotulado = rotulado
-        self.indices = {}
-        self.nomes = {}
+        self.indices = {}  # mapeia índice -> nome
+        self.nomes = {}    # mapeia nome -> índice
         self.adj = []
 
     def adicionarVertice(self, nome):
@@ -44,15 +44,18 @@ class GrafoMatriz:
 
         index_removido = self.nomes[vertice]
 
+        # Remove o vértice dos mapeamentos originais
         del self.nomes[vertice]
         old_indices = self.indices.copy()
         del old_indices[index_removido]
 
+        # Remove a linha correspondente e a coluna de cada linha
         del self.adj[index_removido]
         for linha in self.adj:
             del linha[index_removido]
         self.n -= 1
 
+        # Reconstroi os mapeamentos de índices e nomes com índices de 0 a n-1
         new_indices = {}
         new_nomes = {}
         remaining = [old_indices[k] for k in sorted(old_indices.keys())]
@@ -60,6 +63,20 @@ class GrafoMatriz:
             new_indices[novo_indice] = nome
             new_nomes[nome] = novo_indice
 
+        self.indices = new_indices
+        self.nomes = new_nomes
+
+        # Recalcula o número de arestas após a remoção
+        novo_m = 0
+        for i in range(self.n):
+            for j in range(self.n):
+                if self.rotulado:
+                    if self.adj[i][j] != self.INF:
+                        novo_m += 1
+                else:
+                    if self.adj[i][j] != 0:
+                        novo_m += 1
+        self.m = novo_m
         self.indices = new_indices
         self.nomes = new_nomes
 
@@ -117,51 +134,71 @@ class GrafoMatriz:
         return self.indices.get(indice, "?")
 
     def lerArquivoMatrizAdj(self, arquivo):
+        """
+        Lê o arquivo seguindo o formato:
+          Linha 1: Tipo do grafo (deve ser 6)
+          Linha 2: Quantidade de vértices (N)
+          Próximas N linhas: cada linha com "índice nome_vertice"
+          Próxima linha: Quantidade de arestas (M)
+          Próximas M linhas: cada linha com "índice_origem índice_destino peso_aresta"
+        """
         with open(arquivo, 'r') as arq:
+            # Verifica o tipo do grafo
+            tipo = arq.readline().strip()
+            if tipo != "6":
+                print("Tipo de grafo não é compativel")
+                return None
+
+            # Lê a quantidade de vértices
             num_vertices = int(arq.readline().strip())
             for _ in range(num_vertices):
-                nome_vertice = arq.readline().strip()
-                self.adicionarVertice(nome_vertice)
-            num_arestas = int(arq.readline().strip())
-            for _ in range(num_arestas):
-                partes = arq.readline().strip().split()
+                linha = arq.readline().strip()
+                partes = linha.split(maxsplit=1)
                 if len(partes) < 2:
                     continue
-                origem, destino = partes[0], partes[1]
-                if self.rotulado:
-                    if len(partes) != 3:
-                        continue
-                    peso_str = partes[2]
-                    try:
-                        peso = float(peso_str)
-                    except ValueError:
-                        peso = peso_str
-                    self.insereA(origem, destino, peso)
-                else:
-                    self.insereA(origem, destino, 1)
+                # index_arquivo = int(partes[0])  # pode ser usado para validação
+                nome_vertice = partes[1]
+                self.adicionarVertice(nome_vertice)
+
+            # Lê a quantidade de arestas
+            num_arestas = int(arq.readline().strip())
+            for _ in range(num_arestas):
+                linha = arq.readline().strip()
+                partes = linha.split()
+                if len(partes) != 3:
+                    continue
+                origem_idx = int(partes[0])
+                destino_idx = int(partes[1])
+                try:
+                    peso = float(partes[2])
+                except ValueError:
+                    peso = partes[2]
+
+                origem_nome = self.indices.get(origem_idx)
+                destino_nome = self.indices.get(destino_idx)
+                if origem_nome is None or destino_nome is None:
+                    print(f"Índices inválidos na aresta: {linha}")
+                    continue
+                self.insereA(origem_nome, destino_nome, peso)
         return self.adj
 
     def gravarArquivoMatrizAdj(self, arquivo):
+
         with open(arquivo, 'w') as arq:
+            arq.write("6\n")
             arq.write(f"{self.n}\n")
             for i in range(self.n):
                 nome = self.indices[i]
-                arq.write(f"{nome}\n")
-            # Escreve o número de arestas
+                arq.write(f"{i} {nome}\n")
             arq.write(f"{self.m}\n")
-            # Escreve cada aresta existente na matriz
             for i in range(self.n):
-                origem = self.indices[i]
                 for j in range(self.n):
                     if self.rotulado:
                         if self.adj[i][j] != self.INF:
-                            destino = self.indices[j]
-                            peso = self.adj[i][j]
-                            arq.write(f"{origem} {destino} {peso}\n")
+                            arq.write(f"{i} {j} {self.adj[i][j]}\n")
                     else:
                         if self.adj[i][j] != 0:
-                            destino = self.indices[j]
-                            arq.write(f"{origem} {destino}\n")
+                            arq.write(f"{i} {j} {self.adj[i][j]}\n")
 
     def dfs(self, v, visitados):
         visitados[v] = True

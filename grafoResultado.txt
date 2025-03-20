@@ -1,10 +1,11 @@
+6
 4
-Alice
-Carol
-David
-Eve
-8
-Alice Carol 4.0
-Carol David 1.2
-David Eve 7.0
-Eve Alice 2.1
+0 Alice
+1 Carol
+2 David
+3 Eve
+4
+0 1 4.0
+1 0 2.1
+1 2 1.2
+2 3 7.0
