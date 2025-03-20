@@ -1,0 +1,14 @@
+5
+Alice
+Bob
+Carol
+David
+Eve
+7
+Alice Bob 3.5
+Bob Carol 2
+Alice Carol 4
+Carol David 1.2
+David Eve 7
+Eve Alice 2.1
+Bob Eve 5
