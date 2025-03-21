@@ -1,3 +1,5 @@
+from collections import deque
+
 class GrafoMatriz:
     TAM_MAX_DEFAULT = 10000
     INF = float('inf')
@@ -134,33 +136,23 @@ class GrafoMatriz:
         return self.indices.get(indice, "?")
 
     def lerArquivoMatrizAdj(self, arquivo):
-        """
-        Lê o arquivo seguindo o formato:
-          Linha 1: Tipo do grafo (deve ser 6)
-          Linha 2: Quantidade de vértices (N)
-          Próximas N linhas: cada linha com "índice nome_vertice"
-          Próxima linha: Quantidade de arestas (M)
-          Próximas M linhas: cada linha com "índice_origem índice_destino peso_aresta"
-        """
+
         with open(arquivo, 'r') as arq:
-            # Verifica o tipo do grafo
             tipo = arq.readline().strip()
             if tipo != "6":
                 print("Tipo de grafo não é compativel")
                 return None
 
-            # Lê a quantidade de vértices
             num_vertices = int(arq.readline().strip())
             for _ in range(num_vertices):
                 linha = arq.readline().strip()
                 partes = linha.split(maxsplit=1)
                 if len(partes) < 2:
                     continue
-                # index_arquivo = int(partes[0])  # pode ser usado para validação
+
                 nome_vertice = partes[1]
                 self.adicionarVertice(nome_vertice)
 
-            # Lê a quantidade de arestas
             num_arestas = int(arq.readline().strip())
             for _ in range(num_arestas):
                 linha = arq.readline().strip()
@@ -270,3 +262,74 @@ class GrafoMatriz:
                     if self.adj[i][j] != 0:
                         novo_grafo.insereA(origem, destino)
         return novo_grafo
+
+    def visitarNo(self, v, ordem_visita):
+
+        print(f"Visitado: {self.indices[v]}")
+        ordem_visita.append(self.indices[v])
+
+    def noAdjacente(self, n, visitados):
+
+        for i in range(self.n):
+            if not visitados[i]:
+                if self.rotulado:
+                    if self.adj[n][i] != self.INF:
+                        return i
+                else:
+                    if self.adj[n][i] != 0:
+                        return i
+        return -1
+
+    def percursoProfundidade(self, vInicio):
+
+        if isinstance(vInicio, str):
+            if vInicio not in self.nomes:
+                raise ValueError("Vértice não encontrado.")
+            vInicio = self.nomes[vInicio]
+
+        visitados = [False] * self.n
+        pilha = []
+        ordem_visita = []
+
+        self.visitarNo(vInicio, ordem_visita)
+        visitados[vInicio] = True
+        pilha.append(vInicio)
+
+        while pilha:
+            n = pilha.pop()
+            m = self.noAdjacente(n, visitados)
+            while m != -1:
+                self.visitarNo(m, ordem_visita)
+                pilha.append(n)
+                visitados[m] = True
+                n = m
+                m = self.noAdjacente(n, visitados)
+        return ordem_visita
+
+    def percursoLargura(self, vInicio):
+
+        if isinstance(vInicio, str):
+            if vInicio not in self.nomes:
+                raise ValueError("Vértice não encontrado.")
+            vInicio = self.nomes[vInicio]
+
+        visitados = [False] * self.n
+        fila = deque()
+        ordem_visita = []
+
+        self.visitarNo(vInicio, ordem_visita)
+        visitados[vInicio] = True
+        fila.append(vInicio)
+
+        while fila:
+            n = fila.popleft()
+
+            m = self.noAdjacente(n, visitados)
+            while m != -1:
+                self.visitarNo(m, ordem_visita)
+                visitados[m] = True
+                fila.append(m)
+
+                m = self.noAdjacente(n, visitados)
+
+        return ordem_visita
