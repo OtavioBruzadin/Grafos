@@ -333,3 +333,31 @@ class GrafoMatriz:
                 m = self.noAdjacente(n, visitados)
 
         return ordem_visita
+    
+
+    def listToMatrix(self):
+        matrix = [[0 for _ in range(len(self.listaAdj))] for _ in range(len(self.listaAdj))]
+        for v in range(len(self.listaAdj)):
+            if self.listaAdj[v] is not None:
+                for w in self.listaAdj[v]:
+                    matrix[v][w] = 1
+        self.matrizAdj = matrix
+        return matrix
+
+    def matrixToList(self):
+        self.listaAdj = [[] for _ in range(self.n)]
+        
+        for i in range(self.n):
+            for j in range(self.n):
+                if self.rotulado:
+                    if self.adj[i][j] != self.INF:
+                        self.listaAdj[i].append(j)
+                else:
+                    if self.adj[i][j] != 0:
+                        self.listaAdj[i].append(j)
+        
+        print("\nLista de adjacência:")
+        for v in range(self.n):
+            if self.listaAdj[v] is not None:
+                print(f"{self.indices[v]}: {' '.join(map(str, self.listaAdj[v]))}")
+        return self.listaAdj
