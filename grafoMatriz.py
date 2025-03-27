@@ -223,6 +223,34 @@ class GrafoMatriz:
 
         return 1
 
+    def dijkstra(self, origem):
+        if not self.rotulado:
+            raise ValueError("O algoritmo de Dijkstra requer grafos rotulados com pesos.")
+
+        d = [self.INF] * self.n
+        rot = [None] * self.n
+        d[origem] = 0
+
+        nao_visitados = {i for i in range(self.n) if self.nomes[i] is not None}
+
+        while nao_visitados:
+            u = min(nao_visitados, key=lambda x: d[x])
+
+            if d[u] == self.INF:
+                break
+
+            nao_visitados.remove(u)
+
+            for v in range(self.n):
+                peso = self.adj[u][v]
+                if v in nao_visitados and peso != self.INF:
+                    nova_distancia = d[u] + peso
+                    if nova_distancia < d[v]:
+                        d[v] = nova_distancia
+                        rot[v] = u
+
+        return d, rot
+
 class GrafoMatrizND:
     TAM_MAX_DEFAULT = 100
     INF = float('inf')
