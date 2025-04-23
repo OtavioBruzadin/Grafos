@@ -251,6 +251,54 @@ class GrafoMatriz:
 
         return d, rot
 
+    def prim(self, inicio=None):
+        validos = [i for i, nome in self.nomes.items() if nome is not None]
+        if not validos:
+            return 0, []
+
+        # traduz ponto de partida
+        if inicio is None:
+            u0 = validos[0]
+        elif isinstance(inicio, str):
+            # busca índice pelo nome
+            rev = {v: k for k, v in self.nomes.items() if v is not None}
+            if inicio not in rev:
+                raise ValueError(f"Vértice '{inicio}' não existe.")
+            u0 = rev[inicio]
+        else:
+            u0 = inicio
+            if u0 not in validos:
+                raise ValueError(f"Índice de vértice inválido: {u0}")
+
+        visitados = {u0}
+        mst = []
+        custo_total = 0
+
+        while len(visitados) < len(validos):
+            menor = self.INF
+            sel_u = sel_v = None
+
+            for u in visitados:
+                for v in validos:
+                    if v in visitados:
+                        continue
+                    peso = self.adj[u][v]
+                    if (self.rotulado and peso != self.INF or
+                            not self.rotulado and peso != 0):
+                        if peso < menor:
+                            menor = peso
+                            sel_u, sel_v = u, v
+
+            if sel_v is None:
+                # grafo desconexo
+                break
+
+            visitados.add(sel_v)
+            custo_total += menor
+            mst.append((self.nomes[sel_u], self.nomes[sel_v], menor))
+
+        return custo_total, mst
+
 class GrafoMatrizND:
     TAM_MAX_DEFAULT = 100
     INF = float('inf')
@@ -342,3 +390,49 @@ class GrafoMatrizND:
                         else:
                             grafoComp.adj[i][j] = self.INF
         return grafoComp
+
+    def prim(self, inicio=None):
+        validos = [i for i, nome in self.nomes.items() if nome is not None]
+        if not validos:
+            return 0, []
+
+        if inicio is None:
+            u0 = validos[0]
+        elif isinstance(inicio, str):
+            rev = {v: k for k, v in self.nomes.items() if v is not None}
+            if inicio not in rev:
+                raise ValueError(f"Vértice '{inicio}' não existe.")
+            u0 = rev[inicio]
+        else:
+            u0 = inicio
+            if u0 not in validos:
+                raise ValueError(f"Índice de vértice inválido: {u0}")
+
+        visitados = {u0}
+        mst = []
+        custo_total = 0
+
+        while len(visitados) < len(validos):
+            menor = self.INF
+            sel_u = sel_v = None
+
+            for u in visitados:
+                for v in validos:
+                    if v in visitados:
+                        continue
+                    peso = self.adj[u][v]
+                    if (self.rotulado and peso != self.INF or
+                            not self.rotulado and peso != 0):
+                        if peso < menor:
+                            menor = peso
+                            sel_u, sel_v = u, v
+
+            if sel_v is None:
+                # desconexo
+                break
+
+            visitados.add(sel_v)
+            custo_total += menor
+            mst.append((self.nomes[sel_u], self.nomes[sel_v], menor))
+
+        return custo_total, mst
