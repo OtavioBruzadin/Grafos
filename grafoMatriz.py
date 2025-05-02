@@ -436,3 +436,19 @@ class GrafoMatrizND:
             mst.append((self.nomes[sel_u], self.nomes[sel_v], menor))
 
         return custo_total, mst
+
+
+    def coloracao(self):
+        validos = [i for i, nome in self.nomes.items() if nome is not None]
+        classes = []
+        for u in validos:
+            k = 0
+            while True:
+                if k >= len(classes):
+                    classes.append(set())
+                vizinhos = [v for v in validos if self.adj[u][v] != 0 and self.adj[u][v] != self.INF]
+                if not any(v in classes[k] for v in vizinhos):
+                    classes[k].add(u)
+                    break
+                k += 1
+        return [{self.nomes[v] for v in classe} for classe in classes]
