@@ -361,3 +361,95 @@ class GrafoMatriz:
             if self.listaAdj[v] is not None:
                 print(f"{self.indices[v]}: {' '.join(map(str, self.listaAdj[v]))}")
         return self.listaAdj
+
+    def prim(self, inicio=None):
+        validos = list(range(self.n))
+        if not validos:
+            return 0, []
+
+        # determina o vértice inicial
+        if inicio is None:
+            u0 = validos[0]
+        elif isinstance(inicio, str):
+            if inicio not in self.nomes:
+                raise ValueError(f"Vértice '{inicio}' não existe.")
+            u0 = self.nomes[inicio]
+        else:
+            u0 = inicio
+            if u0 not in validos:
+                raise ValueError(f"Índice de vértice inválido: {u0}")
+
+        visitados = {u0}
+        mst = []
+        custo_total = 0
+
+        # constrói a MST
+        while len(visitados) < self.n:
+            menor = self.INF
+            sel_u = sel_v = None
+
+            for u in visitados:
+                for v in validos:
+                    if v in visitados:
+                        continue
+                    peso = self.adj[u][v]
+                    # verifica existência de aresta
+                    if peso != (self.INF if self.rotulado else 0):
+                        if peso < menor:
+                            menor = peso
+                            sel_u, sel_v = u, v
+
+            # grafo desconexo?
+            if sel_v is None:
+                break
+
+            visitados.add(sel_v)
+            custo_total += menor
+            # adiciona aresta pelo nome dos vértices
+            mst.append((self.indices[sel_u], self.indices[sel_v], menor))
+
+        return custo_total, mst
+
+    def dijkstra(self, origem):
+        if not self.rotulado:
+            raise ValueError("O algoritmo de Dijkstra requer grafos rotulados com pesos.")
+
+        # lista de vértices válidos
+        validos = [i for i, nome in self.nomes.items() if nome is not None]
+
+        # traduz origem
+        if isinstance(origem, str):
+            rev = {v: k for k, v in self.nomes.items() if v is not None}
+            if origem not in rev:
+                raise ValueError(f"Vértice '{origem}' não existe.")
+            src = rev[origem]
+        else:
+            src = origem
+            if src not in validos:
+                raise ValueError(f"Índice de vértice inválido: {src}")
+
+        # inicialização
+        d = {i: self.INF for i in validos}
+        pred = {i: None for i in validos}
+        d[src] = 0
+        nao_visitados = set(validos)
+
+        while nao_visitados:
+            u = min(nao_visitados, key=lambda x: d[x])
+            if d[u] == self.INF:
+                break
+            nao_visitados.remove(u)
+
+            for v in validos:
+                peso = self.adj[u][v]
+                if v in nao_visitados and peso != self.INF:
+                    nova_dist = d[u] + peso
+                    if nova_dist < d[v]:
+                        d[v] = nova_dist
+                        pred[v] = u
+
+        # mapeia resultados para nomes
+        distancias = {self.nomes[i]: d[i] for i in validos}
+        predecessores = {self.nomes[i]: (self.nomes[pred[i]] if pred[i] is not None else None) for i in validos}
+
+        return distancias, predecessores
