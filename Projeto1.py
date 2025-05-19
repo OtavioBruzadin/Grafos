@@ -97,6 +97,38 @@ def switch(numeroMenu):
     elif numeroMenu == 9:
         print("Categoria Conexidade:", grafo.categoriaConexidade())
 
+    elif numeroMenu == 10:
+        if grafo.hConexidade():
+            print("O grafo é conexo.")
+        else:
+            print("O grafo não é conexo.")
+        
+    elif numeroMenu == 11:
+        custo, mst = grafo.prim()
+        if custo == 0:
+            print("O grafo não é conexo para gerar uma árvore geradora mínima.")
+        else:
+            print(f"Custo da árvore geradora mínima: {custo}")
+            for u, v, peso in mst:
+                print(f"Aresta: {u} - {v} | Peso: {peso}")
+        
+    elif numeroMenu == 12:
+        origem = input("Insira o vértice de origem para Dijkstra: ").strip()
+        print("Vértices no grafo:", grafo.nomes)  # Imprimir os vértices no grafo
+        try:
+            distancias, predecessores = grafo.dijkstra(origem)
+            print("Distâncias do vértice de origem:", distancias)
+            print("Predecessores:", predecessores)
+        except ValueError as e:
+            print(e)
+
+
+    elif numeroMenu == 13:
+        if grafo.caminhoEuleriano():
+            print("O grafo possui um caminho euleriano.")
+        else:
+            print("O grafo não possui um caminho euleriano.")
+
     elif numeroMenu == -1:
         print("Programa encerrado.")
         return
@@ -115,6 +147,10 @@ def mostrarOpcoes():
     Digite 7 para Mostrar grafo reduzido;
     Digite 8 para Mostrar grafo;
     Digite 9 para Apresentar a conexidade do grafo;
+    Digite 10 para Verificar se o grafo é conexo;
+    Digite 11 para Exibir a árvore geradora mínima (Algoritmo de Prim);
+    Digite 12 para Calcular o menor caminho (Algoritmo de Dijkstra);
+    Digite 13 para saber se o grafo possui caminho Euleriano
     Digite -1 para Encerrar a aplicação.
     """)
 
