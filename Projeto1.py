@@ -141,12 +141,13 @@ def mostrarOpcoes():
     Digite 5 para Remover vértice;
     Digite 6 para Remover aresta;
     Digite 7 para Mostrar grafo reduzido;
-    Digite 8 para Mostrar grafo;
+    Digite 8 para Mostrar grafo em lista ou matriz;
     Digite 9 para Apresentar a conexidade do grafo;
     Digite 10 para Verificar se o grafo é conexo;
     Digite 11 para Exibir a árvore geradora mínima (Algoritmo de Prim);
     Digite 12 para Ver o grau dos vértices do grafo;
-    Digite 13 para saber se o grafo possui caminho Euleriano
+    Digite 13 para saber se o grafo possui caminho Euleriano;
+    Digite 14 para visualizar o Grafo plotado;
     Digite -1 para Encerrar a aplicação.
     """)
 
