@@ -99,7 +99,7 @@ def switch(numeroMenu):
 
     elif numeroMenu == 10:
         if grafo.hConexidade():
-            print("O grafo é conexo.")
+            print("O grafo é h-conexo.")
         else:
             print("O grafo não é conexo.")
         
@@ -143,7 +143,7 @@ def mostrarOpcoes():
     Digite 7 para Mostrar grafo reduzido;
     Digite 8 para Mostrar grafo em lista ou matriz;
     Digite 9 para Apresentar a conexidade do grafo;
-    Digite 10 para Verificar se o grafo é conexo;
+    Digite 10 para Verificar se o grafo é h-conexo;
     Digite 11 para Exibir a árvore geradora mínima (Algoritmo de Prim);
     Digite 12 para Ver o grau dos vértices do grafo;
     Digite 13 para saber se o grafo possui caminho Euleriano;
