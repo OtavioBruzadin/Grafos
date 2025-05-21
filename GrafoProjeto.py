@@ -1,5 +1,8 @@
 from collections import deque
 
+import networkx as nx
+import matplotlib.pyplot as plt
+
 class GrafoMatriz:
     TAM_MAX_DEFAULT = 10000
     INF = float('inf')
@@ -453,3 +456,90 @@ class GrafoMatriz:
         predecessores = {self.nomes[i]: (self.nomes[pred[i]] if pred[i] is not None else None) for i in validos}
 
         return distancias, predecessores
+    
+
+    def hConexidade(self):
+        # Verifica a conectividade no grafo original
+        visitados = [False] * self.n
+        self.dfs(0, visitados)
+        if not all(visitados):
+            return False
+
+        # Cria o grafo transposto (com todas as arestas invertidas)
+        grafo_transposto = GrafoMatriz(rotulado=self.rotulado)
+        for vertice in self.nomes:
+            grafo_transposto.adicionarVertice(vertice)
+        
+        for i in range(self.n):
+            for j in range(self.n):
+                if self.rotulado:
+                    if self.adj[i][j] != self.INF:
+                        grafo_transposto.insereA(self.indices[i], self.indices[j], self.adj[i][j])
+                else:
+                    if self.adj[i][j] != 0:
+                        grafo_transposto.insereA(self.indices[i], self.indices[j])
+
+        # Verifica a conectividade no grafo transposto
+        visitados = [False] * self.n
+        grafo_transposto.dfs(0, visitados)
+        if not all(visitados):
+            return False
+
+        return True
+    
+
+    def caminhoEuleriano(self):
+        visitados = [False] * self.n
+        self.dfs(0, visitados)
+
+        if not all(visitados):
+            return False
+
+        origem, destino = 0, 0 
+
+        for i in range(self.n):
+            in_degree = self.inDegree(self.indices[i])
+            out_degree = self.outDegree(self.indices[i])
+            if in_degree != out_degree:
+
+                if in_degree - out_degree == 1:
+                    origem += 1
+
+                elif out_degree - in_degree == 1:
+                    destino += 1
+
+                else:
+                    return False
+
+        return (origem == 1 and destino == 1) or (origem == 0 and destino == 0)
+
+
+    def listarGraus(self):
+        for nome in self.nomes:
+            grau = self.degree(nome)
+            print(f"Vértice: {nome}, Grau: {grau}")
+
+
+    def plotarGrafo(self):
+        G = nx.DiGraph() if self.rotulado else nx.Graph()
+
+        for nome in self.nomes:
+            G.add_node(nome)
+
+        for i in range(self.n):
+            for j in range(self.n):
+                if self.rotulado and self.adj[i][j] != self.INF:
+                    G.add_edge(self.indices[i], self.indices[j], weight=self.adj[i][j])
+                elif not self.rotulado and self.adj[i][j] != 0:
+                    G.add_edge(self.indices[i], self.indices[j])
+
+        pos = nx.spring_layout(G) 
+        plt.figure(figsize=(10, 8))
+        nx.draw(G, pos, with_labels=True, node_size=3000, node_color="skyblue", font_size=12, font_weight="bold", edge_color="gray")
+        
+        if self.rotulado:
+            edge_labels = nx.get_edge_attributes(G, 'weight')
+            nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+        
+        plt.title("Grafo")
+        plt.show()
