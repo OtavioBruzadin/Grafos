@@ -1,5 +1,8 @@
 from collections import deque
 
+import networkx as nx
+import matplotlib.pyplot as plt
+
 class GrafoMatriz:
     TAM_MAX_DEFAULT = 10000
     INF = float('inf')
@@ -509,3 +512,34 @@ class GrafoMatriz:
                     return False
 
         return (origem == 1 and destino == 1) or (origem == 0 and destino == 0)
+
+
+    def listarGraus(self):
+        for nome in self.nomes:
+            grau = self.degree(nome)
+            print(f"Vértice: {nome}, Grau: {grau}")
+
+
+    def plotarGrafo(self):
+        G = nx.DiGraph() if self.rotulado else nx.Graph()
+
+        for nome in self.nomes:
+            G.add_node(nome)
+
+        for i in range(self.n):
+            for j in range(self.n):
+                if self.rotulado and self.adj[i][j] != self.INF:
+                    G.add_edge(self.indices[i], self.indices[j], weight=self.adj[i][j])
+                elif not self.rotulado and self.adj[i][j] != 0:
+                    G.add_edge(self.indices[i], self.indices[j])
+
+        pos = nx.spring_layout(G) 
+        plt.figure(figsize=(10, 8))
+        nx.draw(G, pos, with_labels=True, node_size=3000, node_color="skyblue", font_size=12, font_weight="bold", edge_color="gray")
+        
+        if self.rotulado:
+            edge_labels = nx.get_edge_attributes(G, 'weight')
+            nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+        
+        plt.title("Grafo")
+        plt.show()

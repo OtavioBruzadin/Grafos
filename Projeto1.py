@@ -113,14 +113,7 @@ def switch(numeroMenu):
                 print(f"Aresta: {u} - {v} | Peso: {peso}")
         
     elif numeroMenu == 12:
-        origem = input("Insira o vértice de origem para Dijkstra: ").strip()
-        print("Vértices no grafo:", grafo.nomes)  # Imprimir os vértices no grafo
-        try:
-            distancias, predecessores = grafo.dijkstra(origem)
-            print("Distâncias do vértice de origem:", distancias)
-            print("Predecessores:", predecessores)
-        except ValueError as e:
-            print(e)
+        grafo.listarGraus()
 
 
     elif numeroMenu == 13:
@@ -128,6 +121,9 @@ def switch(numeroMenu):
             print("O grafo possui um caminho euleriano.")
         else:
             print("O grafo não possui um caminho euleriano.")
+
+    elif numeroMenu == 14: 
+        grafo.plotarGrafo()
 
     elif numeroMenu == -1:
         print("Programa encerrado.")
@@ -149,7 +145,7 @@ def mostrarOpcoes():
     Digite 9 para Apresentar a conexidade do grafo;
     Digite 10 para Verificar se o grafo é conexo;
     Digite 11 para Exibir a árvore geradora mínima (Algoritmo de Prim);
-    Digite 12 para Calcular o menor caminho (Algoritmo de Dijkstra);
+    Digite 12 para Ver o grau dos vértices do grafo;
     Digite 13 para saber se o grafo possui caminho Euleriano
     Digite -1 para Encerrar a aplicação.
     """)
